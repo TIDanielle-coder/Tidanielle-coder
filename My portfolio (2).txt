@@ -1,0 +1,554 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daniel Ilesanmi Tayo | SIWES Portfolio</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Azeret+Mono:wght@100;400&family=Inter:wght@400;900&display=swap" rel="stylesheet">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12.0/tsparticles.bundle.min.js"></script>
+
+    <style>
+        :root {
+            --bg: #030307;
+            --accent: #00ff88;
+            --glass: rgba(255, 255, 255, 0.08);
+            --border: rgba(0, 255, 136, 0.24);
+            --text-main: #ffffff;
+            --text-dim: #c2c2c2;
+            --shadow: 0 30px 90px rgba(0, 0, 0, 0.35);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-height: 100vh;
+            color: var(--text-main);
+            background-color: transparent;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            line-height: 1.6;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: url('ilesa-jnr.png') center/cover no-repeat;
+            filter: blur(18px) brightness(0.72);
+            z-index: -2;
+            transform: scale(1.03);
+        }
+
+        #background-overlay {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at top, rgba(0, 255, 136, 0.05), transparent 22%),
+                        linear-gradient(180deg, rgba(3, 3, 7, 0.12), rgba(3, 3, 7, 0.18));
+            z-index: -1;
+        }
+
+        #tsparticles {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.35;
+        }
+
+        .page-wrap {
+            position: relative;
+            z-index: 1;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 22px 10%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(3, 3, 7, 0.8);
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid rgba(0, 255, 136, 0.15);
+            z-index: 1000;
+        }
+
+        .logo {
+            font-family: 'Azeret Mono', monospace;
+            letter-spacing: 0.2em;
+            color: var(--accent);
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+            font-size: 0.95rem;
+        }
+
+        .nav-links a {
+            color: var(--text-main);
+            text-decoration: none;
+            opacity: 0.9;
+            transition: opacity 0.25s ease, color 0.25s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+            opacity: 1;
+        }
+
+        .section-wrap {
+            width: min(1200px, 100%);
+            margin: 0 auto;
+        }
+
+        section {
+            padding: clamp(100px, 8vw, 140px) 10%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .hero-inner {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 60px;
+            align-items: center;
+            min-height: calc(100vh - 140px);
+        }
+
+        .hero-copy {
+            max-width: 700px;
+        }
+
+        .hero-copy span {
+            display: inline-block;
+            margin-bottom: 24px;
+            color: var(--accent);
+            font-family: 'Azeret Mono', monospace;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            font-size: 0.82rem;
+        }
+
+        .hero-title {
+            font-size: clamp(3.5rem, 8vw, 6.8rem);
+            font-weight: 900;
+            line-height: 0.95;
+            letter-spacing: -0.07em;
+        }
+
+        .hero-subtitle {
+            margin: 30px 0 0;
+            max-width: 620px;
+            color: var(--text-dim);
+            font-size: 1.05rem;
+            line-height: 1.8;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-top: 40px;
+        }
+
+        .btn-primary,
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 28px;
+            border-radius: 999px;
+            border: 1px solid transparent;
+            text-decoration: none;
+            font-weight: 700;
+            transition: transform 0.25s ease, background-color 0.25s ease, color 0.25s ease;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: #07130b;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--text-main);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .btn-primary:hover,
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+        }
+
+        .hero-visual {
+            display: grid;
+            place-items: center;
+        }
+
+        .hero-card {
+            width: 100%;
+            max-width: 520px;
+            padding: 36px;
+            border-radius: 32px;
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(18px);
+        }
+
+        .hero-card h3 {
+            color: var(--accent);
+            margin-bottom: 14px;
+            font-family: 'Azeret Mono', monospace;
+            letter-spacing: 0.2em;
+            font-size: 0.95rem;
+        }
+
+        .hero-card p {
+            color: var(--text-dim);
+            line-height: 1.8;
+            font-size: 0.95rem;
+        }
+
+        .section-title {
+            display: inline-flex;
+            align-items: center;
+            gap: 18px;
+            margin-bottom: 36px;
+            font-size: clamp(2rem, 4vw, 3rem);
+            line-height: 1.05;
+            font-weight: 800;
+        }
+
+        .section-title .outline {
+            color: transparent;
+            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.35);
+            font-weight: 900;
+        }
+
+        .profile-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .profile-img-box {
+            position: relative;
+            border-radius: 28px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 35px 80px rgba(0, 0, 0, 0.28);
+        }
+
+        .profile-img-box::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(3, 3, 7, 0.18), rgba(3, 3, 7, 0.42));
+        }
+
+        .profile-img-box img {
+            width: 100%;
+            display: block;
+            object-fit: cover;
+            aspect-ratio: 4 / 5;
+            transform: scale(1.02);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            padding: 42px;
+            border-radius: 30px;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(22px);
+        }
+
+        .glass-card h2,
+        .glass-card h3 {
+            margin-bottom: 18px;
+        }
+
+        .glass-card p {
+            color: var(--text-dim);
+            line-height: 1.75;
+            font-size: 1rem;
+        }
+
+        .glass-card p strong {
+            color: #fff;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 24px;
+            margin-top: 18px;
+        }
+
+        .skill-card {
+            min-height: 170px;
+            padding: 28px;
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.04);
+            transition: transform 0.3s ease, border-color 0.3s ease, background-color 0.3s ease;
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.18);
+        }
+
+        .skill-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(0, 255, 136, 0.35);
+            background: rgba(0, 255, 136, 0.08);
+        }
+
+        .skill-card h4 {
+            margin-bottom: 16px;
+            color: var(--accent);
+        }
+
+        .skill-card p {
+            color: var(--text-dim);
+            font-size: 0.95rem;
+        }
+
+        .btn-dock {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+            gap: 16px;
+            margin-top: 30px;
+        }
+
+        .social-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px 20px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            text-decoration: none;
+            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.05);
+            transition: transform 0.2s ease, background-color 0.25s ease, border-color 0.25s ease;
+            font-size: 0.9rem;
+        }
+
+        .social-btn:hover {
+            background: var(--accent);
+            color: #07130b;
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        footer {
+            padding: 40px 10%;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.92rem;
+        }
+
+        @media (max-width: 1080px) {
+            .hero-inner {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                min-height: auto;
+            }
+
+            nav {
+                padding: 18px 6%;
+            }
+
+            section {
+                padding: clamp(80px, 7vw, 100px) 6%;
+            }
+        }
+
+        @media (max-width: 760px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero-title {
+                font-size: clamp(3rem, 14vw, 4.5rem);
+            }
+
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+
+            .profile-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .glass-card,
+            .hero-card {
+                padding: 28px;
+            }
+
+            .btn-dock,
+            .hero-actions {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="background-overlay"></div>
+    <div id="tsparticles"></div>
+
+    <nav>
+        <div class="logo">DANIEL_TAYO.v3</div>
+        <div class="nav-links">
+            <a href="#hero">Home</a>
+            <a href="#about">About</a>
+            <a href="#skills">Skills</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </nav>
+
+    <main class="page-wrap">
+        <section id="hero">
+            <div class="section-wrap hero-inner">
+                <div class="hero-copy">
+                    <span>// initializing identity...</span>
+                    <h1 class="hero-title">Daniel <span class="outline">Ilesanmi</span></h1>
+                    <p class="hero-subtitle">
+                        I am a Software Engineering student at Osun State University, currently in 300 Level. I build modern digital experiences with polished UI, resilient backend systems, and secure scalable infrastructure.
+                    </p>
+
+                    <div class="hero-actions">
+                        <a href="#contact" class="btn-primary">Let&apos;s Connect</a>
+                        <a href="#skills" class="btn-secondary">Explore Skills</a>
+                    </div>
+                </div>
+
+                <div class="hero-visual">
+                    <div class="hero-card">
+                        <h3>What I do best</h3>
+                        <p>
+                            I create full-stack applications, design database-driven systems, and integrate modern payment and security solutions. My work is focused on creating reliable platforms with intuitive interaction and solid engineering foundations.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="about">
+            <div class="section-wrap">
+                <h2 class="section-title">About <span class="outline">Me</span></h2>
+                <div class="profile-grid">
+                    <div class="profile-img-box">
+                        <img src="ilesa-jnr.png" alt="Daniel Ilesanmi Tayo">
+                    </div>
+
+                    <div class="glass-card">
+                        <h3 style="color: var(--accent); font-family: 'Azeret Mono';">About Me</h3>
+                        <p>
+                            I am Daniel Ilesanmi Tayo, a software engineering enthusiast with a strong focus on building robust digital infrastructures. My academic journey at <strong>Osun State University</strong> has sharpened my problem-solving skills and prepared me to deliver thoughtful and functional software solutions.
+                        </p>
+                        <p style="margin-top: 18px;">
+                            I specialize in connecting creative product design with backend logic. I enjoy solving challenges in payment integration, secure access, and multi-tenant systems while maintaining clean, maintainable code.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills">
+            <div class="section-wrap">
+                <h2 class="section-title">Acquired <span class="outline">Skills</span></h2>
+                <div class="skills-grid">
+                    <div class="skill-card">
+                        <h4>Development</h4>
+                        <p>JavaScript, PHP, MERN stack (MongoDB, Express, React, Node.js), responsive front-end interfaces.</p>
+                    </div>
+                    <div class="skill-card">
+                        <h4>Infrastructure</h4>
+                        <p>MySQL, XAMPP, database management, deployment readiness, multi-tenant architecture, performance optimization.</p>
+                    </div>
+                    <div class="skill-card">
+                        <h4>Specialized</h4>
+                        <p>Origin shielding, payment gateway integration, real-time conversion tools, secure data-driven platforms.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <div class="section-wrap">
+                <div class="glass-card" style="text-align: center;">
+                    <h2 class="section-title" style="margin-bottom: 16px;">Establish <span class="outline">Signal</span></h2>
+                    <p style="color: var(--text-dim); max-width: 680px; margin: 0 auto 28px;">
+                        Ready for new infrastructure design, technical challenges, and collaborative projects. Let&apos;s build something practical, secure, and polished.
+                    </p>
+
+                    <div class="btn-dock">
+                        <a href="https://wa.me/2347014153446" class="social-btn">WhatsApp</a>
+                        <a href="https://www.linkedin.com/in/daniel-ilesanmi-tayo" class="social-btn">LinkedIn</a>
+                        <a href="https://www.instagram.com/ilesa_jnr" class="social-btn">Instagram</a>
+                        <a href="https://www.tiktok.com/@ilesan_jnr" class="social-btn">TikTok</a>
+                        <a href="https://www.facebook.com/daniel.ilesanmi" class="social-btn">Facebook</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        © 2026 Daniel Ilesanmi Tayo — crafted for SIWES placement readiness.
+    </footer>
+
+    <script>
+        tsParticles.load("tsparticles", {
+            particles: {
+                number: { value: 45 },
+                color: { value: "#00ff88" },
+                shape: { type: "circle" },
+                opacity: { value: 0.22 },
+                size: { value: { min: 1, max: 3 } },
+                move: { enable: true, speed: 1.2 }
+            },
+            interactivity: {
+                events: { onHover: { enable: true, mode: "repulse" } }
+            }
+        });
+
+        gsap.registerPlugin(ScrollTrigger);
+
+        gsap.from(".hero-copy, .hero-card", { opacity: 0, y: 40, duration: 1.3, stagger: 0.15, ease: "power4.out" });
+
+        gsap.utils.toArray(".glass-card, .skill-card, .profile-img-box").forEach(el => {
+            gsap.from(el, {
+                scrollTrigger: { trigger: el, start: "top 90%" },
+                opacity: 0,
+                y: 30,
+                duration: 1,
+                ease: "power2.out"
+            });
+        });
+    </script>
+</body>
+</html>
